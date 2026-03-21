@@ -1,0 +1,65 @@
+{
+	"name": "DataAnalysis",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "insusrancedata",
+						"type": "DatasetReference"
+					},
+					"name": "DataAnalysis"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "insusrancedata",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "aggregate1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          age as integer,",
+				"          sex as string,",
+				"          bmi as double,",
+				"          children as integer,",
+				"          smoker as boolean,",
+				"          region as string,",
+				"          charges as double",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> DataAnalysis",
+				"DataAnalysis aggregate(groupBy(region),",
+				"     children = sum(children),",
+				"          charges = avg(bmi),",
+				"          age = max(age)) ~> aggregate1",
+				"DataAnalysis sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          age as string,",
+				"          sex as string,",
+				"          bmi as string,",
+				"          children as string,",
+				"          smoker as string,",
+				"          region as string,",
+				"          charges as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

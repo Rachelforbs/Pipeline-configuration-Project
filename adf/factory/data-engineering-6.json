@@ -1,0 +1,9 @@
+{
+	"name": "data-engineering-6",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9fb2f4db-c0e2-4482-a26e-3cae91328353",
+		"tenantId": "60323838-3b9f-48a9-bc23-9fc991606b85"
+	}
+}
