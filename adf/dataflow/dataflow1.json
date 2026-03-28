@@ -1,0 +1,77 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "rawtocurated",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "rawtocurated",
+						"type": "DatasetReference"
+					},
+					"name": "DuplicateSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "rawtocurated",
+						"type": "DatasetReference"
+					},
+					"name": "UniqueSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "DuplicateRows"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CustomerID as string,",
+				"          OrderID as string,",
+				"          Region as string,",
+				"          Product as string,",
+				"          Quantity as short,",
+				"          UnitPrice as double,",
+				"          OrderDate as date,",
+				"          LastModifiedDate as date,",
+				"          Email as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 aggregate(groupBy(OrderID,",
+				"          Product),",
+				"     RowCount = count(1)) ~> aggregate1",
+				"aggregate1 split(RowCount > 1,",
+				"     RowCount  == 1,",
+				"     disjoint: true) ~> DuplicateRows@(Duplicate, Unique)",
+				"DuplicateRows@Duplicate sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> DuplicateSink",
+				"DuplicateRows@Unique sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> UniqueSink"
+			]
+		}
+	}
+}
