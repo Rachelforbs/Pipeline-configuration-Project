@@ -1,5 +1,5 @@
 {
-	"name": "UniqueData",
+	"name": "CleanData",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",
@@ -10,26 +10,13 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileSystem": "curated"
+				"fileSystem": "analytics"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "OrderID",
-				"type": "String"
-			},
-			{
-				"name": "Product",
-				"type": "String"
-			},
-			{
-				"name": "RowCount",
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
