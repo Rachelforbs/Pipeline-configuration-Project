@@ -1,0 +1,34 @@
+{
+	"name": "commentssink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "raw"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"userId": {
+					"type": "integer"
+				},
+				"id": {
+					"type": "integer"
+				},
+				"title": {
+					"type": "string"
+				},
+				"body": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
