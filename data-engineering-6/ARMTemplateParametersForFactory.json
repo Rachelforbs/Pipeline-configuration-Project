@@ -10,6 +10,9 @@
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://dataengineringda5.dfs.core.windows.net/"
+		},
+		"RestAPILink_properties_typeProperties_url": {
+			"value": "https://jsonplaceholder.typicode.com/"
 		}
 	}
 }
