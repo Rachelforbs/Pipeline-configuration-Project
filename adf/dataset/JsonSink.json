@@ -1,0 +1,19 @@
+{
+	"name": "JsonSink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "posts.json",
+				"fileSystem": "raw"
+			}
+		},
+		"schema": {}
+	}
+}

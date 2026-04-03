@@ -1,0 +1,19 @@
+{
+	"name": "usersink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "usersink",
+				"fileSystem": "raw"
+			}
+		},
+		"schema": {}
+	}
+}

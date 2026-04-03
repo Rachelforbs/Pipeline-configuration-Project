@@ -1,0 +1,15 @@
+{
+	"name": "user_json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "RestAPILink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "/users"
+		},
+		"schema": []
+	}
+}
