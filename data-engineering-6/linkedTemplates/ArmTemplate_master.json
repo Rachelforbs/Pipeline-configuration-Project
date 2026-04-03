@@ -17,7 +17,7 @@
 		},
 		"RestAPILink_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://jsonplaceholder.typicode.com/"
+			"defaultValue": "https://jsonplaceholder.typicode.com"
 		},
 		"containerUri": {
 			"type": "string",
