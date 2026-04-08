@@ -190,6 +190,53 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/UserPL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DFsplitTable",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DFsplitTable",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"UserTableSink": {},
+									"UserDetailTablesink": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/DFsplitTable')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/rawtocurated')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -719,6 +766,59 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/UserDetailSink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "UserDetail.Json",
+						"folderPath": "UserDetails",
+						"fileSystem": "curated"
+					},
+					"compression": {
+						"type": "snappy"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UserSK')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "UserSK",
+						"folderPath": "Users",
+						"fileSystem": "curated"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/commentsJson')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -863,7 +963,71 @@
 						"fileSystem": "raw"
 					}
 				},
-				"schema": {}
+				"schema": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "integer"
+						},
+						"name": {
+							"type": "string"
+						},
+						"username": {
+							"type": "string"
+						},
+						"email": {
+							"type": "string"
+						},
+						"address": {
+							"type": "object",
+							"properties": {
+								"street": {
+									"type": "string"
+								},
+								"suite": {
+									"type": "string"
+								},
+								"city": {
+									"type": "string"
+								},
+								"zipcode": {
+									"type": "string"
+								},
+								"geo": {
+									"type": "object",
+									"properties": {
+										"lat": {
+											"type": "string"
+										},
+										"lng": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						},
+						"phone": {
+							"type": "string"
+						},
+						"website": {
+							"type": "string"
+						},
+						"company": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"catchPhrase": {
+									"type": "string"
+								},
+								"bs": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
@@ -900,6 +1064,104 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DFsplitTable')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "usersink",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "UserSK",
+								"type": "DatasetReference"
+							},
+							"name": "UserTableSink"
+						},
+						{
+							"dataset": {
+								"referenceName": "UserDetailSink",
+								"type": "DatasetReference"
+							},
+							"name": "UserDetailTablesink"
+						}
+					],
+					"transformations": [
+						{
+							"name": "userSelectTable"
+						},
+						{
+							"name": "UserDetailselectTable"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          id as integer,",
+						"          name as string,",
+						"          username as string,",
+						"          email as string,",
+						"          address as (street as string, suite as string, city as string, zipcode as string, geo as (lat as string, lng as string)),",
+						"          phone as string,",
+						"          website as string,",
+						"          company as (name as string, catchPhrase as string, bs as string)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'documentPerLine',",
+						"     partitionBy('hash', 1)) ~> source1",
+						"source1 select(mapColumn(",
+						"          UserID = id,",
+						"          Name = name,",
+						"          Email = email,",
+						"          Phone = phone,",
+						"          Website = website",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> userSelectTable",
+						"source1 select(mapColumn(",
+						"          UserID = id,",
+						"          Street = address.street,",
+						"          City = address.city,",
+						"          Zipcode = address.zipcode,",
+						"          Company = company.name",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> UserDetailselectTable",
+						"userSelectTable sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> UserTableSink",
+						"UserDetailselectTable sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> UserDetailTablesink"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/usersink')]",
+				"[concat(variables('factoryId'), '/datasets/UserSK')]",
+				"[concat(variables('factoryId'), '/datasets/UserDetailSink')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
