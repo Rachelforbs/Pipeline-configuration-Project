@@ -1,0 +1,68 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_Country",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"name": "source2"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "selectcurrencies"
+				},
+				{
+					"name": "Detailcapital"
+				},
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "aggregate2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          name as (common as string, official as string, nativeName as (fra as (official as string, common as string), ita as (official as string, common as string), kir as (official as string, common as string), rus as (official as string, common as string), eng as (official as string, common as string), hmo as (official as string, common as string), tpi as (official as string, common as string), fij as (official as string, common as string), hif as (official as string, common as string), ara as (official as string, common as string), swa as (official as string, common as string), por as (official as string, common as string))),",
+				"          currencies as (XOF as (name as string, symbol as string), EUR as (name as string, symbol as string), KGS as (name as string, symbol as string), PGK as (name as string, symbol as string), FJD as (name as string, symbol as string), AED as (name as string, symbol as string), XCD as (name as string, symbol as string), TZS as (name as string, symbol as string), AOA as (name as string, symbol as string)),",
+				"          capital as string[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> source1",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source2",
+				"source1 select(mapColumn(",
+				"          common = name.common,",
+				"          nativeName = currencies,",
+				"          capital",
+				"     ),",
+				"     partitionBy('hash', 1),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectcurrencies",
+				"source1 select(mapColumn(",
+				"          name,",
+				"          currencies,",
+				"          capital",
+				"     ),",
+				"     partitionBy('hash', 1),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Detailcapital",
+				"Detailcapital aggregate(groupBy(name),",
+				"     capital = abs(10)- 20) ~> aggregate1",
+				"selectcurrencies aggregate(groupBy(common),",
+				"     capital = abs(10)) ~> aggregate2"
+			]
+		}
+	}
+}
