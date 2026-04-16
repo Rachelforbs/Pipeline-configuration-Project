@@ -5,26 +5,14 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "usersink",
-						"type": "DatasetReference"
-					},
 					"name": "source1"
 				}
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "UserSK",
-						"type": "DatasetReference"
-					},
 					"name": "UserTableSink"
 				},
 				{
-					"dataset": {
-						"referenceName": "UserDetailSink",
-						"type": "DatasetReference"
-					},
 					"name": "UserDetailTablesink"
 				}
 			],
@@ -49,8 +37,6 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine',",
 				"     partitionBy('hash', 1)) ~> source1",
 				"source1 select(mapColumn(",
 				"          UserID = id,",
@@ -72,19 +58,17 @@
 				"     skipDuplicateMapOutputs: true) ~> UserDetailselectTable",
 				"userSelectTable sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> UserTableSink",
+				"     partitionBy('hash', 1),",
+				"     preCommands: [],",
+				"     postCommands: []) ~> UserTableSink",
 				"UserDetailselectTable sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> UserDetailTablesink"
+				"     skipDuplicateMapOutputs: true,",
+				"     preCommands: [],",
+				"     postCommands: []) ~> UserDetailTablesink"
 			]
 		}
 	}
