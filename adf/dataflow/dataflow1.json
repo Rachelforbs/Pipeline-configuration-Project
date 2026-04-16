@@ -5,26 +5,14 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "rawtocurated",
-						"type": "DatasetReference"
-					},
 					"name": "source1"
 				}
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "rawtocurated",
-						"type": "DatasetReference"
-					},
 					"name": "DuplicateSink"
 				},
 				{
-					"dataset": {
-						"referenceName": "rawtocurated",
-						"type": "DatasetReference"
-					},
 					"name": "UniqueSink"
 				}
 			],
@@ -49,8 +37,7 @@
 				"          Email as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
+				"     validateSchema: false) ~> source1",
 				"source1 aggregate(groupBy(OrderID,",
 				"          Product),",
 				"     RowCount = count(1)) ~> aggregate1",
@@ -60,20 +47,18 @@
 				"     partitionBy('hash', 1)) ~> DuplicateRows@(Duplicate, Unique)",
 				"DuplicateRows@Duplicate sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> DuplicateSink",
+				"     partitionBy('hash', 1),",
+				"     preCommands: [],",
+				"     postCommands: []) ~> DuplicateSink",
 				"DuplicateRows@Unique sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> UniqueSink"
+				"     partitionBy('hash', 1),",
+				"     preCommands: [],",
+				"     postCommands: []) ~> UniqueSink"
 			]
 		}
 	}
