@@ -11,8 +11,11 @@
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://dataengineringda5.dfs.core.windows.net/"
 		},
+		"LS_RestCountries_properties_typeProperties_url": {
+			"value": "https://restcountries.com"
+		},
 		"RestAPILink_properties_typeProperties_url": {
-			"value": "https://jsonplaceholder.typicode.com"
+			"value": "https://restcountries.com/"
 		}
 	}
 }

@@ -15,9 +15,13 @@
 			"type": "string",
 			"defaultValue": "https://dataengineringda5.dfs.core.windows.net/"
 		},
+		"LS_RestCountries_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://restcountries.com"
+		},
 		"RestAPILink_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://jsonplaceholder.typicode.com"
+			"defaultValue": "https://restcountries.com/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -51,6 +55,9 @@
 					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"LS_RestCountries_properties_typeProperties_url": {
+						"value": "[parameters('LS_RestCountries_properties_typeProperties_url')]"
 					},
 					"RestAPILink_properties_typeProperties_url": {
 						"value": "[parameters('RestAPILink_properties_typeProperties_url')]"
