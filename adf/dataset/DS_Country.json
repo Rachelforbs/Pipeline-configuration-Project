@@ -1,0 +1,280 @@
+{
+	"name": "DS_Country",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "raw"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "object",
+					"properties": {
+						"common": {
+							"type": "string"
+						},
+						"official": {
+							"type": "string"
+						},
+						"nativeName": {
+							"type": "object",
+							"properties": {
+								"fra": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								},
+								"ita": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								},
+								"kir": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								},
+								"rus": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								},
+								"eng": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								},
+								"hmo": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								},
+								"tpi": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								},
+								"fij": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								},
+								"hif": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								},
+								"ara": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								},
+								"swa": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								},
+								"por": {
+									"type": "object",
+									"properties": {
+										"official": {
+											"type": "string"
+										},
+										"common": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"currencies": {
+					"type": "object",
+					"properties": {
+						"XOF": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"symbol": {
+									"type": "string"
+								}
+							}
+						},
+						"EUR": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"symbol": {
+									"type": "string"
+								}
+							}
+						},
+						"KGS": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"symbol": {
+									"type": "string"
+								}
+							}
+						},
+						"PGK": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"symbol": {
+									"type": "string"
+								}
+							}
+						},
+						"FJD": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"symbol": {
+									"type": "string"
+								}
+							}
+						},
+						"AED": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"symbol": {
+									"type": "string"
+								}
+							}
+						},
+						"XCD": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"symbol": {
+									"type": "string"
+								}
+							}
+						},
+						"TZS": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"symbol": {
+									"type": "string"
+								}
+							}
+						},
+						"AOA": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"symbol": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"capital": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}

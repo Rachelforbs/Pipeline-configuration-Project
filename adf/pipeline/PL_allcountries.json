@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy Country data1",
+				"name": "Copy Country data",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -35,9 +35,15 @@
 					},
 					"enableStaging": false
 				},
+				"inputs": [
+					{
+						"referenceName": "RestResource1",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
-						"referenceName": "Json1",
+						"referenceName": "DS_Country",
 						"type": "DatasetReference"
 					}
 				]
