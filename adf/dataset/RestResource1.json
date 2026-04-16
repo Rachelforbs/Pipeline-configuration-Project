@@ -1,0 +1,15 @@
+{
+	"name": "RestResource1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_RestCountries",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "/v3.1/all?fields=name,region,capital,area,population,currencies,relevance,languages,continent,timezones"
+		},
+		"schema": []
+	}
+}
