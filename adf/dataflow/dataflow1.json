@@ -3,11 +3,28 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_Country",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          name as (common as string, official as string, nativeName as (fra as (official as string, common as string), ita as (official as string, common as string), kir as (official as string, common as string), rus as (official as string, common as string), eng as (official as string, common as string), hmo as (official as string, common as string), tpi as (official as string, common as string), fij as (official as string, common as string), hif as (official as string, common as string), ara as (official as string, common as string), swa as (official as string, common as string), por as (official as string, common as string))),",
+				"          currencies as (XOF as (name as string, symbol as string), EUR as (name as string, symbol as string), KGS as (name as string, symbol as string), PGK as (name as string, symbol as string), FJD as (name as string, symbol as string), AED as (name as string, symbol as string), XCD as (name as string, symbol as string), TZS as (name as string, symbol as string), AOA as (name as string, symbol as string)),",
+				"          capital as string[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine',",
+				"     partitionBy('hash', 1)) ~> source1"
 			]
 		}
 	}
